@@ -87,7 +87,7 @@ namespace ProxyTrayIndicator
                 proxySet = false;
                 notifyIcon.Icon = Resource.off;
             }
-            notifyIcon.Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, name, "Aucune"));
+            notifyIcon.Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune"));
         }
 
         private void ExitClick(object sender, EventArgs e)
