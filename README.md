@@ -1,5 +1,6 @@
 # SysTrayIndicator
 
+- [download the latest release](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/releases/latest)
 - Launch SysTrayIndicator
 - Once launched you can see SysTrayIndicator icon in the systray :
   - red if proxy disable,
