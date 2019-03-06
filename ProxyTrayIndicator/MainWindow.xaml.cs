@@ -30,17 +30,11 @@ namespace ProxyTrayIndicator
             Visible = true
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
-        Button button = new Button()
-        {
-            Content = "Exit"
-        };
         private static System.Timers.Timer timer;
-
         
         public   MainWindow()
         {
             InitializeComponent();
-            button.Click += ExitClick;
             menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
             menu.MenuItems.Add("Copyright", new EventHandler(ShowC));
             notifyIcon.ContextMenu = menu;
