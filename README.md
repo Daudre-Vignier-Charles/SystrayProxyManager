@@ -16,4 +16,5 @@
 ![None](https://user-images.githubusercontent.com/17654421/53895036-6e52b500-4031-11e9-84d7-e91211424157.png)
 
 - mouse hovers over the systray icon display the proxy server address
+
 ![None](https://user-images.githubusercontent.com/17654421/53895294-02bd1780-4032-11e9-928c-f17ec661a990.png)
