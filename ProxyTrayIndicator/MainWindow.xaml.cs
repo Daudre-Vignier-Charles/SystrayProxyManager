@@ -22,19 +22,31 @@ namespace ProxyTrayIndicator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
-        private string name = "ProxyEnable";
+        private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
+        private static string name = "ProxyEnable";
         private bool proxySet = true;
         System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon()
-        { 
+        {
+            Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune")),
             Visible = true
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
         private static System.Timers.Timer timer;
-        
+
+        private static System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
+        {
+            CreateNoWindow = true,
+            UseShellExecute = false,
+        };
+        System.Diagnostics.Process proc = new System.Diagnostics.Process()
+        {
+            StartInfo = procStartInfo
+        };
+
         public   MainWindow()
         {
             InitializeComponent();
+            menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
             menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
             menu.MenuItems.Add("Copyright", new EventHandler(ShowC));
             notifyIcon.ContextMenu = menu;
@@ -75,6 +87,7 @@ namespace ProxyTrayIndicator
                 proxySet = false;
                 notifyIcon.Icon = Resource.off;
             }
+            notifyIcon.Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, name, "Aucune"));
         }
 
         private void ExitClick(object sender, EventArgs e)
@@ -85,6 +98,11 @@ namespace ProxyTrayIndicator
         private void ShowC(object sender, EventArgs e)
         {
             MessageBox.Show(Resource.License, "Copyrights and licenses");
+        }
+
+        private void LaunchIEParamClick(object sender, EventArgs e)
+        {
+            proc.Start();
         }
     }
 }
