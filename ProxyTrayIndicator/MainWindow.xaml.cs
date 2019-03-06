@@ -22,12 +22,13 @@ namespace ProxyTrayIndicator
     /// </summary>
     public partial class MainWindow : Window
     {
+        static System.Threading.Mutex mutex = new System.Threading.Mutex(true, "{8F6E0AC4-B9A1-45fd-AC6F-73F04E6BDE8F}");
         private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
         private static string name = "ProxyEnable";
         private bool proxySet = true;
         System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon()
         {
-            Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune")),
+            Text = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune"),
             Visible = true
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
@@ -45,6 +46,12 @@ namespace ProxyTrayIndicator
 
         public   MainWindow()
         {
+            if (!mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                MessageBox.Show("only one instance at a time");
+                this.Close();
+                return;
+            }
             InitializeComponent();
             menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
             menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
@@ -87,11 +94,12 @@ namespace ProxyTrayIndicator
                 proxySet = false;
                 notifyIcon.Icon = Resource.off;
             }
-            notifyIcon.Text = String.Format("URL: {0}", (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune"));
+            notifyIcon.Text = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune");
         }
 
         private void ExitClick(object sender, EventArgs e)
         {
+            mutex.ReleaseMutex();
             notifyIcon.Dispose();
             this.Close();
         }
