@@ -92,6 +92,7 @@ namespace ProxyTrayIndicator
 
         private void ExitClick(object sender, EventArgs e)
         {
+            notifyIcon.Dispose();
             this.Close();
         }
 
