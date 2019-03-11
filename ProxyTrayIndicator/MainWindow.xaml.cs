@@ -22,6 +22,7 @@ namespace ProxyTrayIndicator
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Mutex is used to allow only one instance of ProxyTrayIndicator
         static System.Threading.Mutex mutex = new System.Threading.Mutex(true, "{8F6E0AC4-B9A1-45fd-AC6F-73F04E6BDE8F}");
         private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
         private static string name = "ProxyEnable";
@@ -33,6 +34,9 @@ namespace ProxyTrayIndicator
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
         private static System.Timers.Timer timer;
+        /// <summary>
+        ///  Microsoft Windows Internet Settings
+        /// </summary>
         System.Diagnostics.Process proc = new System.Diagnostics.Process()
         {
             StartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
@@ -59,6 +63,11 @@ namespace ProxyTrayIndicator
             SetTimer();
         }
 
+        /// <summary>
+        /// Switch proxy state on tray icon click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Click(Object sender, EventArgs e)
         {
             if (((System.Windows.Forms.MouseEventArgs)e).Button == System.Windows.Forms.MouseButtons.Left)
@@ -70,6 +79,9 @@ namespace ProxyTrayIndicator
             }
         }
 
+        /// <summary>
+        /// Every one second, Timer_Elapsed is called
+        /// </summary>
         private void SetTimer()
         {
             timer = new System.Timers.Timer(1000); //Timer goes off every 1 seconds
@@ -78,6 +90,11 @@ namespace ProxyTrayIndicator
             timer.Enabled = true;
         }
 
+        /// <summary>
+        /// Check proxy state and update tray icon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if ((int)Microsoft.Win32.Registry.GetValue(key, name, 8) == 1)
@@ -93,6 +110,11 @@ namespace ProxyTrayIndicator
             notifyIcon.Text = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "no proxy server");
         }
 
+        /// <summary>
+        /// Clean and exit app
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitClick(object sender, EventArgs e)
         {
             mutex.ReleaseMutex();
@@ -100,11 +122,21 @@ namespace ProxyTrayIndicator
             this.Close();
         }
 
+        /// <summary>
+        /// Show copyright notice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowC(object sender, EventArgs e)
         {
             MessageBox.Show(Resource.License, "Copyrights and licenses");
         }
 
+        /// <summary>
+        /// Open Microsoft Windows Internet Settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LaunchIEParamClick(object sender, EventArgs e)
         {
             proc.Start();
