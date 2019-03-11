@@ -54,6 +54,7 @@ namespace ProxyTrayIndicator
                 this.Close();
                 return;
             }
+            Closing += OnClose;
             InitializeComponent();
             menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
             menu.MenuItems.Add("Copyright", new EventHandler(ShowC));
@@ -117,8 +118,6 @@ namespace ProxyTrayIndicator
         /// <param name="e"></param>
         private void ExitClick(object sender, EventArgs e)
         {
-            mutex.ReleaseMutex();
-            notifyIcon.Dispose();
             this.Close();
         }
 
@@ -140,6 +139,13 @@ namespace ProxyTrayIndicator
         private void LaunchIEParamClick(object sender, EventArgs e)
         {
             proc.Start();
+        }
+
+        void OnClose(Object sender, EventArgs e)
+        {
+            mutex.ReleaseMutex();
+            notifyIcon.Dispose();
+            return;
         }
     }
 }
