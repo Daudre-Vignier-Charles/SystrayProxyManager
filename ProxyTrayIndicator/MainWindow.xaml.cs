@@ -33,15 +33,13 @@ namespace ProxyTrayIndicator
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
         private static System.Timers.Timer timer;
-
-        private static System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
-        {
-            CreateNoWindow = true,
-            UseShellExecute = false,
-        };
         System.Diagnostics.Process proc = new System.Diagnostics.Process()
         {
-            StartInfo = procStartInfo
+            StartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            }
         };
 
         public   MainWindow()
@@ -54,8 +52,8 @@ namespace ProxyTrayIndicator
             }
             InitializeComponent();
             menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
-            menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
             menu.MenuItems.Add("Copyright", new EventHandler(ShowC));
+            menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
             notifyIcon.ContextMenu = menu;
             notifyIcon.Click += Click;
             SetTimer();
@@ -63,8 +61,7 @@ namespace ProxyTrayIndicator
 
         private void Click(Object sender, EventArgs e)
         {
-            System.Windows.Forms.MouseEventArgs z = (System.Windows.Forms.MouseEventArgs)e;
-            if (z.Button == System.Windows.Forms.MouseButtons.Left)
+            if (((System.Windows.Forms.MouseEventArgs)e).Button == System.Windows.Forms.MouseButtons.Left)
             {
                 if (proxySet)
                     Microsoft.Win32.Registry.SetValue(key, name, 0, Microsoft.Win32.RegistryValueKind.DWord);
@@ -83,8 +80,7 @@ namespace ProxyTrayIndicator
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            int res = (int)Microsoft.Win32.Registry.GetValue(key, name, 8);
-            if (res == 1)
+            if ((int)Microsoft.Win32.Registry.GetValue(key, name, 8) == 1)
             {
                 proxySet = true;
                 notifyIcon.Icon = Resource.on;
@@ -94,7 +90,7 @@ namespace ProxyTrayIndicator
                 proxySet = false;
                 notifyIcon.Icon = Resource.off;
             }
-            notifyIcon.Text = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "Aucune");
+            notifyIcon.Text = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "no proxy server");
         }
 
         private void ExitClick(object sender, EventArgs e)
