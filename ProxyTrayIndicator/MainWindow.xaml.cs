@@ -1,19 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Net;
-using System.Drawing;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ProxyTrayIndicator
 {
@@ -33,6 +19,7 @@ namespace ProxyTrayIndicator
         };
         System.Windows.Forms.ContextMenu menu = new System.Windows.Forms.ContextMenu();
         private static System.Timers.Timer timer;
+        NetworkInformations.MainWindow networkInfomations;
 
         private static System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
         {
@@ -54,8 +41,9 @@ namespace ProxyTrayIndicator
             }
             InitializeComponent();
             menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
-            menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
+            menu.MenuItems.Add("Show NetworkInterfaces", new EventHandler(ShowNI));
             menu.MenuItems.Add("Copyright", new EventHandler(ShowC));
+            menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
             notifyIcon.ContextMenu = menu;
             notifyIcon.Click += Click;
             SetTimer();
@@ -83,8 +71,7 @@ namespace ProxyTrayIndicator
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            int res = (int)Microsoft.Win32.Registry.GetValue(key, name, 8);
-            if (res == 1)
+            if ((int)Microsoft.Win32.Registry.GetValue(key, name, 8) == 1)
             {
                 proxySet = true;
                 notifyIcon.Icon = Resource.on;
@@ -107,6 +94,12 @@ namespace ProxyTrayIndicator
         private void ShowC(object sender, EventArgs e)
         {
             MessageBox.Show(Resource.License, "Copyrights and licenses");
+        }
+
+        private void ShowNI(object sender, EventArgs e)
+        {
+            networkInfomations = new NetworkInformations.MainWindow();
+            networkInfomations.Show();
         }
 
         private void LaunchIEParamClick(object sender, EventArgs e)
