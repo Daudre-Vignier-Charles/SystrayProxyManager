@@ -13,7 +13,7 @@ namespace ProxyTrayIndicator
         private bool close = false;
         private Proxy currentProxy;
         private string savePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\proxysSave";
-        private static System.Threading.Mutex mutex = new System.Threading.Mutex(false, "{10000B-B9A1-45fd-AC6F-73F04E6BDE8F}");
+        private static System.Threading.Mutex mutex = new System.Threading.Mutex(false, "{10000C-B9A1-45fd-AC6F-73F04E6BDE8F}");
         private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
         private static string regProxyEnable = "ProxyEnable";
         private static string regProxyServer = "ProxyServer";
@@ -50,6 +50,7 @@ namespace ProxyTrayIndicator
                 return;
             }
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             force = new System.Windows.Forms.MenuItem("Force mode", ForceSwitch) { Checked = false };
             LoadProxys();
             BuildMenu();
@@ -191,7 +192,7 @@ namespace ProxyTrayIndicator
         private void BuildMenu()
         {
             menu.MenuItems.Add("Exit", new EventHandler(ExitClick));
-            menu.MenuItems.Add("Copyright & sources", new EventHandler(ShowC));
+            menu.MenuItems.Add("Copyright and sources", new EventHandler(ShowC));
             menu.MenuItems.Add("Show IE settings", new EventHandler(LaunchIEParamClick));
             menu.MenuItems.Add("Clear proxy", new EventHandler(ClearProxy));
             menu.MenuItems.Add(3, force);
@@ -237,6 +238,7 @@ namespace ProxyTrayIndicator
 
         private void EditProxy(Object sender, EventArgs e)
         {
+            CenterWindowOnScreen();
             this.Show();
             this.ShowInTaskbar = true;
         }
@@ -250,6 +252,16 @@ namespace ProxyTrayIndicator
         {
             if (File.Exists(savePath))
                 proxys = Serializer.Load<List<Proxy>>(savePath);
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
     }
 }
