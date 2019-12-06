@@ -5,5 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProxyTrayIndicator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Visibility="Hidden" WindowState="Minimized" ShowInTaskbar="False">
+        Title="MainWindow" Height="450" Width="800" Visibility="Hidden" ShowInTaskbar="False">
+
+    <Grid x:Name="grid" HorizontalAlignment="Center" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=window, Mode=OneWay}" Margin="0" VerticalAlignment="Bottom">
+        <DataGrid Name="dgProxy" HorizontalAlignment="Left" Height="381" VerticalAlignment="Top" Width="800" CanUserResizeRows="False"/>
+    </Grid>
 </Window>
