@@ -27,3 +27,5 @@
 - **Edit proxy** open a windows where you can edit your proxy list
 
 ![None](https://user-images.githubusercontent.com/17654421/70349293-be7ed200-1864-11ea-90d5-78449fe6c923.png)
+
+- **Set proxy** submenu let you set a proxy from your proxy list
