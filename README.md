@@ -1,5 +1,7 @@
 # ProxyTrayIndicator
 
+([french version](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/blob/master/README.fr-fr.md))
+
 - [download the latest release](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/releases/latest)
 - Launch ProxyTrayIndicator
 - Once launched you can see ProxyTrayIndicator icon in the systray :
