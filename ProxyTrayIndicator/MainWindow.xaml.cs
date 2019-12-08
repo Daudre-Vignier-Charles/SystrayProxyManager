@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace ProxyTrayIndicator
 {
     public partial class MainWindow : Window
     {
-        Proxies proxies = new Proxies();
+        private Proxies proxies = new Proxies();
         private bool close = false;
-        private Proxy userDefinedProxy;
-        private bool internalProxySet = false;
+        private Proxy userDefinedProxyServer;
+        private bool userDefinedProxyState = false;
         private static System.Threading.Mutex mutex = new System.Threading.Mutex(false, "6b6bacb3-4b87-4516-876c-55eff887dad7");
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenu mainMenu = new System.Windows.Forms.ContextMenu();
@@ -47,12 +44,10 @@ namespace ProxyTrayIndicator
                 Text = proxies.GetProxyServer().ToString(),
                 Visible = true
             };
-            proxies.LoadProxies();
-            BuildMenu();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             notifyIcon.Click += IconClick;
+            BuildMenu();
             SetTimer();
-            userDefinedProxy = proxies.GetProxyServer();
+            userDefinedProxyServer = proxies.GetProxyServer();
             dgProxy.ItemsSource = proxies.proxies;
         }
 
@@ -63,12 +58,12 @@ namespace ProxyTrayIndicator
                 if (proxies.GetProxyState())
                 {
                     proxies.SetProxyState(false);
-                    internalProxySet = false;
+                    userDefinedProxyState = false;
                 }
                 else
                 {
                     proxies.SetProxyState(true);
-                    internalProxySet = true;
+                    userDefinedProxyState = true;
                 }
             }
         }
@@ -89,11 +84,11 @@ namespace ProxyTrayIndicator
             notifyIcon.Text = proxies.GetProxyServer().ToString();
             if (force.Checked)
             {
-                if (notifyIcon.Text != userDefinedProxy.ToString())
-                    proxies.SetProxyServer(userDefinedProxy);
-                if (proxies.GetProxyState() != internalProxySet)
+                if (notifyIcon.Text != userDefinedProxyServer.ToString())
+                    proxies.SetProxyServer(userDefinedProxyServer);
+                if (proxies.GetProxyState() != userDefinedProxyState)
                 {
-                    if (internalProxySet)
+                    if (userDefinedProxyState)
                         proxies.SetProxyState(true);
                     else
                         proxies.SetProxyState(false);
@@ -176,7 +171,7 @@ namespace ProxyTrayIndicator
                 if (proxy != null)
                 {
                     proxies.SetProxyServer(proxy);
-                    userDefinedProxy = proxy;
+                    userDefinedProxyServer = proxy;
                 }
             }
         }

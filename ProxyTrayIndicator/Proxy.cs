@@ -10,17 +10,18 @@ namespace ProxyTrayIndicator
     public class Proxies
     {
         public List<Proxy> proxies = new List<Proxy>();
-        private string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\proxysSave";
+        private static ProxyValidationRule rule = new ProxyValidationRule();
+        private static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\proxysSave";
         private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
 
-        internal void SaveProxies() =>
-            Serializer.Save(path, proxies);
-
-        internal void LoadProxies()
+        public Proxies()
         {
             if (File.Exists(path))
                 proxies = Serializer.Load<List<Proxy>>(path);
         }
+
+        internal void SaveProxies() =>
+            Serializer.Save(path, GetValidatedProxies());
 
         internal bool GetProxyState()
         {
@@ -57,15 +58,10 @@ namespace ProxyTrayIndicator
 
         internal List<Proxy> GetValidatedProxies()
         {
-            ProxyValidationRule rule = new ProxyValidationRule();
             List<Proxy> lst = new List<Proxy>();
             foreach (Proxy proxy in proxies.ToArray())
-            {
                 if (rule.Validate(proxy, Thread.CurrentThread.CurrentCulture) == ValidationResult.ValidResult)
-                {
                     lst.Add(proxy);
-                }
-            }
             return lst;
         }
     }
@@ -83,34 +79,21 @@ namespace ProxyTrayIndicator
 
     public class ProxyValidationRule : ValidationRule
     {
-        uint i;
+        static uint i;
         public override ValidationResult Validate(object value,
             System.Globalization.CultureInfo cultureInfo)
         {
             Proxy proxy = value as Proxy;
             if (proxy == null)
-            {
                 proxy = (value as BindingGroup).Items[0] as Proxy;
-            }
             if (String.IsNullOrWhiteSpace(proxy.Name))
-            {
-                return new ValidationResult(false,
-                    "Name cannot be empty");
-            }
+                return new ValidationResult(false, "Name cannot be empty");
             else if (string.IsNullOrWhiteSpace(proxy.Address))
-            {
-                return new ValidationResult(false,
-                    "Address cannot be empty");
-            }
+                return new ValidationResult(false, "Address cannot be empty");
             else if (!uint.TryParse(proxy.Port, out i))
-            {
-                return new ValidationResult(false,
-                    "Port must be a numeric value and cannot be empty");
-            }
+                return new ValidationResult(false, "Port must be a numeric value and cannot be empty");
             else
-            {
                 return ValidationResult.ValidResult;
-            }
         }
     }
 }
