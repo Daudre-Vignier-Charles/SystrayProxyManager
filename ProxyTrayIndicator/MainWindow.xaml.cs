@@ -15,7 +15,7 @@ namespace ProxyTrayIndicator
         private bool close = false;
         private Proxy userDefinedProxy;
         private bool internalProxySet = false;
-        private System.Threading.Mutex mutex = new System.Threading.Mutex(false, "0");
+        private static readonly System.Threading.Mutex mutex = new System.Threading.Mutex(false, Guid.NewGuid().ToString());
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenu mainMenu = new System.Windows.Forms.ContextMenu();
         private System.Windows.Forms.MenuItem force;

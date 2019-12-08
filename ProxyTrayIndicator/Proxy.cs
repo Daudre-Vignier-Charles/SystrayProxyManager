@@ -83,7 +83,7 @@ namespace ProxyTrayIndicator
 
     public class ProxyValidationRule : ValidationRule
     {
-        int i;
+        uint i;
         public override ValidationResult Validate(object value,
             System.Globalization.CultureInfo cultureInfo)
         {
@@ -102,7 +102,7 @@ namespace ProxyTrayIndicator
                 return new ValidationResult(false,
                     "Address cannot be empty");
             }
-            else if (!int.TryParse(proxy.Port, out i))
+            else if (!uint.TryParse(proxy.Port, out i))
             {
                 return new ValidationResult(false,
                     "Port must be a numeric value and cannot be empty");
