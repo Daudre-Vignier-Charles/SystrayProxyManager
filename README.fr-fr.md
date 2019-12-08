@@ -5,7 +5,7 @@
 - [Télécharger la dernière version](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/releases/latest)
 - Lancer ProxyTrayIndicator
 - Une fois lancé vous pouvez voir ProxyTrayIndicator dans la zone de notification :
-  - ruge si le proxy est désactivé,
+  - rouge si le proxy est désactivé,
   
   ![None](https://user-images.githubusercontent.com/17654421/53884729-8c61ea80-401c-11e9-9c95-1e1d10fb56c0.png)
   - vert si le proxy est activé
