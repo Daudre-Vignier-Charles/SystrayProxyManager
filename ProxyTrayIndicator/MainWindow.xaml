@@ -6,5 +6,5 @@
         xmlns:local="clr-namespace:ProxyTrayIndicator"
         mc:Ignorable="d"
         Title="Edit proxy list" Height="200" Width="400" Visibility="Visible" ShowInTaskbar="False" MinWidth="400" MinHeight="200">
-    <DataGrid Name="dgProxy" HorizontalAlignment="Right" Height="{Binding ActualHeight, ElementName=window, Mode=OneWay}" VerticalAlignment="Bottom" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" CanUserResizeRows="False" CanUserReorderColumns="False" Padding="10,40,0,0"/>
+    <DataGrid Name="dgProxy" HorizontalAlignment="Right" Height="{Binding ActualHeight, ElementName=window, Mode=OneWay}" VerticalAlignment="Bottom" Width="{Binding ActualWidth, ElementName=window, Mode=OneWay}" CanUserResizeRows="False" CanUserReorderColumns="False" Padding="10,40,0,0" MinWidth="{Binding ActualWidth, ElementName=window, Mode=OneWay}" MinHeight="{Binding ActualHeight, ElementName=window, Mode=OneWay}" CanUserAddRows="True" CanUserDeleteRows="True"/>
 </Window>
