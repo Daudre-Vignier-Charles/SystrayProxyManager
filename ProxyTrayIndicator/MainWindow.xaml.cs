@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +15,7 @@ namespace ProxyTrayIndicator
         private bool close = false;
         private Proxy userDefinedProxy;
         private bool internalProxySet = false;
-        private static System.Threading.Mutex mutex = new System.Threading.Mutex(false, "{10000O-B9A1-45fd-AC6F-73F04E6BDE8F}");
+        private System.Threading.Mutex mutex = new System.Threading.Mutex(false, "0");
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenu mainMenu = new System.Windows.Forms.ContextMenu();
         private System.Windows.Forms.MenuItem force;
@@ -161,7 +162,7 @@ namespace ProxyTrayIndicator
         private System.Windows.Forms.MenuItem[] GetProxyList()
         {
             List<System.Windows.Forms.MenuItem> menu = new List<System.Windows.Forms.MenuItem>();
-            foreach (Proxy proxy in proxies.proxies)
+            foreach (Proxy proxy in proxies.GetValidatedProxies())
                 menu.Add(new System.Windows.Forms.MenuItem(proxy.Name, SetProxy) { Tag = proxy });
             return menu.ToArray();
         }

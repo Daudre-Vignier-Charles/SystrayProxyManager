@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
+using System.Threading;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ProxyTrayIndicator
 {
@@ -55,6 +54,20 @@ namespace ProxyTrayIndicator
 
         internal void SetProxyServer(Proxy proxy) =>
             Microsoft.Win32.Registry.SetValue(key, "ProxyServer", proxy.ToString(), Microsoft.Win32.RegistryValueKind.String);
+
+        internal List<Proxy> GetValidatedProxies()
+        {
+            ProxyValidationRule rule = new ProxyValidationRule();
+            List<Proxy> lst = new List<Proxy>();
+            foreach (Proxy proxy in proxies.ToArray())
+            {
+                if (rule.Validate(proxy, Thread.CurrentThread.CurrentCulture) == ValidationResult.ValidResult)
+                {
+                    lst.Add(proxy);
+                }
+            }
+            return lst;
+        }
     }
 
     [Serializable]
@@ -66,5 +79,38 @@ namespace ProxyTrayIndicator
 
         public override string ToString() =>
             String.IsNullOrWhiteSpace(Address) ? "" : String.Format("{0}:{1}", Address, Port);
+    }
+
+    public class ProxyValidationRule : ValidationRule
+    {
+        int i;
+        public override ValidationResult Validate(object value,
+            System.Globalization.CultureInfo cultureInfo)
+        {
+            Proxy proxy = value as Proxy;
+            if (proxy == null)
+            {
+                proxy = (value as BindingGroup).Items[0] as Proxy;
+            }
+            if (String.IsNullOrWhiteSpace(proxy.Name))
+            {
+                return new ValidationResult(false,
+                    "Name cannot be empty");
+            }
+            else if (string.IsNullOrWhiteSpace(proxy.Address))
+            {
+                return new ValidationResult(false,
+                    "Address cannot be empty");
+            }
+            else if (!int.TryParse(proxy.Port, out i))
+            {
+                return new ValidationResult(false,
+                    "Port must be a numeric value and cannot be empty");
+            }
+            else
+            {
+                return ValidationResult.ValidResult;
+            }
+        }
     }
 }
