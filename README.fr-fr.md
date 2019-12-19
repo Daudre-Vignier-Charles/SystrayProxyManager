@@ -1,10 +1,10 @@
-# ProxyTrayIndicator
+﻿# SystrayProxyManager
 
-([english version](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/blob/master/README.md))
+([english version](https://github.com/Daudre-Vignier-Charles/SystrayProxyManager/blob/master/README.md))
 
-- [Télécharger la dernière version](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/releases/latest)
-- Lancer ProxyTrayIndicator
-- Une fois lancé vous pouvez voir ProxyTrayIndicator dans la zone de notification :
+- [Télécharger la dernière version](https://github.com/Daudre-Vignier-Charles/SystrayProxyManager/releases/latest)
+- Lancer SystrayProxyManager
+- Une fois lancé vous pouvez voir SystrayProxyManager dans la zone de notification :
   - rouge si le proxy est désactivé,
   
   ![None](https://user-images.githubusercontent.com/17654421/53884729-8c61ea80-401c-11e9-9c95-1e1d10fb56c0.png)
@@ -22,7 +22,7 @@
 
 ![None](https://user-images.githubusercontent.com/17654421/70349162-7fe91780-1864-11ea-9e4c-fbed0c429e2d.png)
 
-- **Force mode** est utilisé pour forcer les paramètres proxy de ProxyTrayIndicator (contre-GPO, logiciels tiers, etc)
+- **Force mode** est utilisé pour forcer les paramètres proxy de SystrayProxyManager (contre-GPO, logiciels tiers, etc)
 
 - **Clear settings** efface les paramètres proxy en cours
 

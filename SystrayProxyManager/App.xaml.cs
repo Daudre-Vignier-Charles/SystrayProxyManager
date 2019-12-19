@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ProxyTrayIndicator
+namespace SystrayProxyManager
 {
     public partial class App : Application
     {

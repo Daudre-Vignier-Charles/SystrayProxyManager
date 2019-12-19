@@ -8,4 +8,4 @@ You should have received a copy of the GNU General Public License along with thi
 If not, see < https://www.gnu.org/licenses/ >.
 
 Sources are available from :
-https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator
+https://github.com/Daudre-Vignier-Charles/SystrayProxyManager

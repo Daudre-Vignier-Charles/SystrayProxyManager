@@ -1,10 +1,10 @@
-# ProxyTrayIndicator
+# SystrayProxyManager
 
-([french version](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/blob/master/README.fr-fr.md))
+([french version](https://github.com/Daudre-Vignier-Charles/SystrayProxyManager/blob/master/README.fr-fr.md))
 
-- [download the latest release](https://github.com/Daudre-Vignier-Charles/ProxyTrayIndicator/releases/latest)
-- Launch ProxyTrayIndicator
-- Once launched you can see ProxyTrayIndicator icon in the systray :
+- [download the latest release](https://github.com/Daudre-Vignier-Charles/SystrayProxyManager/releases/latest)
+- Launch SystrayProxyManager
+- Once launched you can see SystrayProxyManager icon in the systray :
   - red if proxy disabled,
   
   ![None](https://user-images.githubusercontent.com/17654421/53884729-8c61ea80-401c-11e9-9c95-1e1d10fb56c0.png)

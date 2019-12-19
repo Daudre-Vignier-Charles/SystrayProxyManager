@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProxyTrayIndicator.Properties
+namespace SystrayProxyManager.Properties
 {
 
 

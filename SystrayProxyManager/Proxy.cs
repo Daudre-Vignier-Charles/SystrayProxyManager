@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Linq;
 
-namespace ProxyTrayIndicator
+namespace SystrayProxyManager
 {
     public class Proxies
     {

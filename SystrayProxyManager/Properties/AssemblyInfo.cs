@@ -5,11 +5,11 @@ using System.Windows;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("ProxyTrayIndicator")]
+[assembly: AssemblyTitle("SystrayProxyManager")]
 [assembly: AssemblyDescription("A very simple windows application, add systray icon, show and set proxy state (enabled/disabled)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Charles Daudré-Vignier")]
-[assembly: AssemblyProduct("ProxyTrayIndicator")]
+[assembly: AssemblyProduct("SystrayProxyManager")]
 [assembly: AssemblyCopyright("Copyright Charles Daudré-Vignier © 2019 - GPLv3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

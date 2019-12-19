@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
-namespace ProxyTrayIndicator
+namespace SystrayProxyManager
 {
     public partial class MainWindow : Window
     {
@@ -106,7 +106,7 @@ namespace ProxyTrayIndicator
         }
 
         private void ShowCopyright(object sender, EventArgs e) =>
-            System.Windows.Forms.MessageBox.Show(Resource.License, "Copyrights and licenses");
+            System.Windows.Forms.MessageBox.Show(Resource.License, "SystrayProxyManager - Copyrights and licenses");
 
         private void LaunchIEParamClick(object sender, EventArgs e) =>
             InternetSettings.Start();
