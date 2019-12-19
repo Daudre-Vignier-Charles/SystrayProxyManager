@@ -20,7 +20,7 @@ namespace ProxyTrayIndicator
         private static System.Timers.Timer timer;
         private System.Diagnostics.Process InternetSettings = new System.Diagnostics.Process()
         {
-            //  Microsoft Windows Internet Settings
+            //  Microsoft Windows Internet Settings window
             StartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + "inetcpl.cpl ,4")
             {
                 CreateNoWindow = true,
@@ -41,13 +41,14 @@ namespace ProxyTrayIndicator
             }
             notifyIcon = new System.Windows.Forms.NotifyIcon()
             {
-                Text = proxies.GetProxyServer().ToString(),
+                Text = proxies.CurrentProxyServer.ToString(),
                 Visible = true
             };
             notifyIcon.Click += IconClick;
             BuildMenu();
             SetTimer();
-            userDefinedProxyServer = proxies.GetProxyServer();
+            userDefinedProxyState = proxies.CurrentProxyState;
+            userDefinedProxyServer = proxies.CurrentProxyServer;
             dgProxy.ItemsSource = proxies.proxies;
         }
 
@@ -55,14 +56,14 @@ namespace ProxyTrayIndicator
         {
             if (((System.Windows.Forms.MouseEventArgs)e).Button == System.Windows.Forms.MouseButtons.Left)
             {
-                if (proxies.GetProxyState())
+                if (proxies.CurrentProxyState)
                 {
-                    proxies.SetProxyState(false);
+                    proxies.CurrentProxyState = false;
                     userDefinedProxyState = false;
                 }
                 else
                 {
-                    proxies.SetProxyState(true);
+                    proxies.CurrentProxyState = true;
                     userDefinedProxyState = true;
                 }
             }
@@ -81,21 +82,15 @@ namespace ProxyTrayIndicator
         /// </summary>
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            notifyIcon.Text = proxies.GetProxyServer().ToString();
+            notifyIcon.Text = proxies.CurrentProxyServer.ToString();
             if (force.Checked)
             {
                 if (notifyIcon.Text != userDefinedProxyServer.ToString())
-                    proxies.SetProxyServer(userDefinedProxyServer);
-                if (proxies.GetProxyState() != userDefinedProxyState)
-                {
-                    if (userDefinedProxyState)
-                        proxies.SetProxyState(true);
-                    else
-                        proxies.SetProxyState(false);
-                }
-                
+                    proxies.CurrentProxyServer = userDefinedProxyServer;
+                if (proxies.CurrentProxyState != userDefinedProxyState)
+                    proxies.CurrentProxyState = userDefinedProxyState;
             }
-            if (proxies.GetProxyState())
+            if (proxies.CurrentProxyState)
                 notifyIcon.Icon = Resource.on;
             else
                 notifyIcon.Icon = Resource.off;
@@ -142,7 +137,7 @@ namespace ProxyTrayIndicator
             mainMenu.MenuItems.Add("Clear proxy", new EventHandler(proxies.ClearProxyServer));
             force = new System.Windows.Forms.MenuItem("Force mode", ForceSwitch) { Checked = false };
             mainMenu.MenuItems.Add(3, force);
-            mainMenu.MenuItems.Add("Edit proxys", new EventHandler(EditProxy));
+            mainMenu.MenuItems.Add("Edit proxys", new EventHandler(OpenEditProxiesWindow));
             UpdateProxyMenu();
             notifyIcon.ContextMenu = mainMenu;
         }
@@ -170,13 +165,13 @@ namespace ProxyTrayIndicator
                 Proxy proxy = item.Tag as Proxy;
                 if (proxy != null)
                 {
-                    proxies.SetProxyServer(proxy);
+                    proxies.CurrentProxyServer = proxy;
                     userDefinedProxyServer = proxy;
                 }
             }
         }
 
-        private void EditProxy(Object sender, EventArgs e)
+        private void OpenEditProxiesWindow(Object sender, EventArgs e)
         {
             CenterWindowOnScreen();
             this.Show();

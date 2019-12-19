@@ -4,11 +4,41 @@ using System.IO;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Linq;
 
 namespace ProxyTrayIndicator
 {
     public class Proxies
     {
+        public Proxy CurrentProxyServer
+        {
+            get
+            {
+                string address = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "");
+                return new Proxy()
+                {
+                    Name = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(0, address.IndexOf(":")),
+                    Address = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(0, address.IndexOf(":")),
+                    Port = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(address.IndexOf(":") + 1)
+                };
+            }
+            set =>
+                Microsoft.Win32.Registry.SetValue(key, "ProxyServer", value.ToString(), Microsoft.Win32.RegistryValueKind.String);
+        }
+
+        public bool CurrentProxyState
+        {
+            get =>
+                (int)Microsoft.Win32.Registry.GetValue(key, "ProxyEnable", 2) == 1;
+            set
+            {
+                if (value)
+                    Microsoft.Win32.Registry.SetValue(key, "ProxyEnable", 1, Microsoft.Win32.RegistryValueKind.DWord);
+                else
+                    Microsoft.Win32.Registry.SetValue(key, "ProxyEnable", 0, Microsoft.Win32.RegistryValueKind.DWord);
+            }
+        }
+
         public List<Proxy> proxies = new List<Proxy>();
         private static ProxyValidationRule rule = new ProxyValidationRule();
         private static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\proxysSave";
@@ -23,47 +53,11 @@ namespace ProxyTrayIndicator
         internal void SaveProxies() =>
             Serializer.Save(path, GetValidatedProxies());
 
-        internal bool GetProxyState()
-        {
-            if ((int)Microsoft.Win32.Registry.GetValue(key, "ProxyEnable", 2) == 1)
-                return true;
-            else
-                return false;
-        }
-
-        internal void SetProxyState(bool state)
-        {
-            if (state)
-                Microsoft.Win32.Registry.SetValue(key, "ProxyEnable", 1, Microsoft.Win32.RegistryValueKind.DWord);
-            else
-                Microsoft.Win32.Registry.SetValue(key, "ProxyEnable", 0, Microsoft.Win32.RegistryValueKind.DWord);
-        }
-
         internal void ClearProxyServer(Object sender, EventArgs e) =>
             Microsoft.Win32.Registry.SetValue(key, "ProxyServer", "", Microsoft.Win32.RegistryValueKind.String);
 
-        internal Proxy GetProxyServer()
-        {
-            string address = (string)Microsoft.Win32.Registry.GetValue(key, "ProxyServer", "");
-            return new Proxy()
-            {
-                Name = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(0, address.IndexOf(":")),
-                Address = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(0, address.IndexOf(":")),
-                Port = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(address.IndexOf(":") + 1)
-            };
-        }
-
-        internal void SetProxyServer(Proxy proxy) =>
-            Microsoft.Win32.Registry.SetValue(key, "ProxyServer", proxy.ToString(), Microsoft.Win32.RegistryValueKind.String);
-
-        internal List<Proxy> GetValidatedProxies()
-        {
-            List<Proxy> lst = new List<Proxy>();
-            foreach (Proxy proxy in proxies.ToArray())
-                if (rule.Validate(proxy, Thread.CurrentThread.CurrentCulture) == ValidationResult.ValidResult)
-                    lst.Add(proxy);
-            return lst;
-        }
+        internal List<Proxy> GetValidatedProxies() =>
+            proxies.Where(proxy => rule.Validate(proxy, Thread.CurrentThread.CurrentCulture) == ValidationResult.ValidResult).ToList();
     }
 
     [Serializable]
@@ -83,9 +77,9 @@ namespace ProxyTrayIndicator
         public override ValidationResult Validate(object value,
             System.Globalization.CultureInfo cultureInfo)
         {
-            Proxy proxy = value as Proxy;
-            if (proxy == null)
-                proxy = (value as BindingGroup).Items[0] as Proxy;
+            Proxy proxy = value as Proxy; // using if from direct call
+            if (proxy == null) 
+                proxy = (value as BindingGroup).Items[0] as Proxy; // using if from RowValidationRules
             if (String.IsNullOrWhiteSpace(proxy.Name))
                 return new ValidationResult(false, "Name cannot be empty");
             else if (string.IsNullOrWhiteSpace(proxy.Address))
