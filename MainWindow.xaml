@@ -30,7 +30,7 @@
         </DataGrid>
         <tb:TaskbarIcon x:Name="taskBarIcon" Visibility="Hidden" LeftClickCommand="{Binding TaskBarIcon_LeftClick}">
             <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu Name="MainMenu" Padding="-30, 0, 0, 0" Background="White">
+                <ContextMenu Name="MainMenu" Padding="0, 0, 0, 0" Background="White">
                     <ContextMenu.Style>
                         <Style TargetType="{x:Type ContextMenu}">
                             <Setter Property="ItemsPanel" Value="{StaticResource MainMenuStyle}"/>
