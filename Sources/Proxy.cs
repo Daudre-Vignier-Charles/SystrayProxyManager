@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Linq;
 
 namespace SystrayProxyManager
 {
@@ -22,8 +20,14 @@ namespace SystrayProxyManager
                     Port = String.IsNullOrWhiteSpace(address) ? "" : address.Substring(address.IndexOf(":") + 1)
                 };
             }
-            set =>
-                Microsoft.Win32.Registry.SetValue(key, "ProxyServer", value.ToString(), Microsoft.Win32.RegistryValueKind.String);
+            set
+            {
+                if (value == null)
+                    Microsoft.Win32.Registry.SetValue(key, "ProxyServer", "", Microsoft.Win32.RegistryValueKind.String);
+                else
+                    Microsoft.Win32.Registry.SetValue(key, "ProxyServer", value.ToString(), Microsoft.Win32.RegistryValueKind.String);
+            }
+                
         }
 
         public bool CurrentProxyState
@@ -39,9 +43,10 @@ namespace SystrayProxyManager
             }
         }
 
-        public List<Proxy> proxies = new List<Proxy>();
+        public List<Proxy> proxies { get; set; } = new List<Proxy>();
+        //public List<Proxy> proxies = new List<Proxy>();
         private static ProxyValidationRule rule = new ProxyValidationRule();
-        private static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\proxysSave";
+        private static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\SystrayProxyManager\proxy_list.dat";
         private static string key = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\";
 
         public Proxies()
@@ -51,13 +56,7 @@ namespace SystrayProxyManager
         }
 
         internal void SaveProxies() =>
-            Serializer.Save(path, GetValidatedProxies());
-
-        internal void ClearProxyServer(Object sender, EventArgs e) =>
-            Microsoft.Win32.Registry.SetValue(key, "ProxyServer", "", Microsoft.Win32.RegistryValueKind.String);
-
-        internal List<Proxy> GetValidatedProxies() =>
-            proxies.Where(proxy => rule.Validate(proxy, Thread.CurrentThread.CurrentCulture) == ValidationResult.ValidResult).ToList();
+            Serializer.Save(path, proxies);
     }
 
     [Serializable]
@@ -78,7 +77,7 @@ namespace SystrayProxyManager
             System.Globalization.CultureInfo cultureInfo)
         {
             Proxy proxy = value as Proxy; // using if from direct call
-            if (proxy == null) 
+            if (proxy == null)
                 proxy = (value as BindingGroup).Items[0] as Proxy; // using if from RowValidationRules
             if (String.IsNullOrWhiteSpace(proxy.Name))
                 return new ValidationResult(false, "Name cannot be empty");

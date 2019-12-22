@@ -1,0 +1,56 @@
+﻿<Window x:Name="window" x:Class="SystrayProxyManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SystrayProxyManager"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        mc:Ignorable="d"
+        Title="Edit proxy list" Height="200" Width="400" Visibility="Hidden" ShowInTaskbar="False" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterScreen"
+        Closed="Window_Closed" Closing="Window_Closing">
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="MainMenuStyle">
+            <StackPanel Background="White"/>
+        </ItemsPanelTemplate>
+        <ItemsPanelTemplate x:Key="MenuProxyStyle">
+            <StackPanel Background="White" Margin="-30, 0, 0, 0"/>
+        </ItemsPanelTemplate>
+    </Window.Resources>
+    <Grid>
+        <DataGrid Name="dgProxy" HorizontalAlignment="Right"
+                  Height="{Binding ActualHeight, ElementName=window, Mode=OneWay}"
+                  VerticalAlignment="Bottom" Width="{Binding ActualWidth,
+                  ElementName=window, Mode=OneWay}" CanUserResizeRows="False" CanUserReorderColumns="False"
+                  Padding="10,40,0,0" MinWidth="{Binding ActualWidth, ElementName=window,
+                  Mode=OneWay}" MinHeight="{Binding ActualHeight, ElementName=window, Mode=OneWay}"
+                  CanUserAddRows="True" CanUserDeleteRows="True" AutoGenerateColumns="True">
+            <DataGrid.RowValidationRules>
+                <local:ProxyValidationRule ValidationStep="UpdatedValue"/>
+            </DataGrid.RowValidationRules>
+        </DataGrid>
+        <tb:TaskbarIcon x:Name="taskBarIcon" Visibility="Visible" LeftClickCommand="{Binding TaskBarIcon_LeftClick}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu Name="MainMenu" Padding="-30, 0, 0, 0" Background="White">
+                    <ContextMenu.Style>
+                        <Style TargetType="{x:Type ContextMenu}">
+                            <Setter Property="ItemsPanel" Value="{StaticResource MainMenuStyle}"/>
+                        </Style>
+                    </ContextMenu.Style>
+                    <MenuItem Header="Exit" Click="Exit_Click"/>
+                    <MenuItem Header="Copyright and sources" Click="Copyright_Click"/>
+                    <MenuItem Header="Show IE settings" Click="IESettings_Click"/>
+                    <MenuItem Header="Clear proxy" Click="Clear_Click"/>
+                    <MenuItem Name="menu_Force" Header="Force mode" Click="Force_Click" IsCheckable="True" IsChecked="False"/>
+                    <MenuItem Header="Edit proxy list" Click="Edit_Click"/>
+                    <MenuItem Name="menu_proxy" Header="Set proxy" ItemsSource="{Binding proxies.ValidProxy}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}">
+                                <Setter Property="ItemsPanel" Value="{StaticResource MenuProxyStyle}"/>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+    </Grid>
+</Window>

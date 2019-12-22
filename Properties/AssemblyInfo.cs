@@ -1,22 +1,24 @@
 ﻿using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
 // Les informations générales relatives à un assembly dépendent de
-// l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
+// l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("SystrayProxyManager")]
-[assembly: AssemblyDescription("A very simple windows application, add systray icon, show and set proxy state (enabled/disabled)")]
+[assembly: AssemblyDescription("Manage Windows proxy from the systray.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Charles Daudré-Vignier")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SystrayProxyManager")]
-[assembly: AssemblyCopyright("Copyright Charles Daudré-Vignier © 2019 - GPLv3")]
+[assembly: AssemblyCopyright("Copyright Charles Daudré-Vignier ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly
 // aux composants COM. Si vous devez accéder à un type dans cet assembly à partir de
-// COM, affectez la valeur true à l'attribut ComVisible sur ce type.
+// COM, affectez la valeur True à l'attribut ComVisible sur ce type.
 [assembly: ComVisible(false)]
 
 //Pour commencer à générer des applications localisables, définissez
@@ -39,7 +41,7 @@ using System.Windows;
 )]
 
 
-// Les informations de version pour un assembly se composent des quatre valeurs suivantes :
+// Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //
 //      Version principale
 //      Version secondaire
@@ -49,5 +51,5 @@ using System.Windows;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("4.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

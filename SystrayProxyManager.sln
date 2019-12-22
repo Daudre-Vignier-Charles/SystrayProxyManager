@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystrayProxyManager", "SystrayProxyManager\SystrayProxyManager.csproj", "{8A0D9549-C69D-4E75-8404-09E57E097369}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystrayProxyManager", "SystrayProxyManager.csproj", "{A46AF6A8-CD29-4416-A11B-847909CBB784}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8A0D9549-C69D-4E75-8404-09E57E097369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A0D9549-C69D-4E75-8404-09E57E097369}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A0D9549-C69D-4E75-8404-09E57E097369}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A0D9549-C69D-4E75-8404-09E57E097369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46AF6A8-CD29-4416-A11B-847909CBB784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46AF6A8-CD29-4416-A11B-847909CBB784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46AF6A8-CD29-4416-A11B-847909CBB784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46AF6A8-CD29-4416-A11B-847909CBB784}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {33352418-F26A-4518-BF5E-C736DAB7644D}
+		SolutionGuid = {523A93D8-89F0-4EFE-884D-5B99869C1557}
 	EndGlobalSection
 EndGlobal
