@@ -7,14 +7,14 @@ using System.Windows.Threading;
 
 namespace SystrayProxyManager
 {
-    enum CloseFrom { Window, Menu, Other };
+    enum ExitOrigin { User, Mutex, None};
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        ExitOrigin exitOrigin = ExitOrigin.None;
         private Proxies proxies = new Proxies();
-        private bool UserExit = false;
         private Proxy userDefinedProxyServer;
         private bool userDefinedProxyState;
         private DispatcherTimer timer;
@@ -26,11 +26,12 @@ namespace SystrayProxyManager
             if (!mutex.WaitOne(TimeSpan.Zero, true))
             {
                 MessageBox.Show("only one instance at a time");
-                UserExit = true;
+                exitOrigin = ExitOrigin.Mutex;
                 this.Close();
                 return;
             }
             SetTimer();
+            taskBarIcon.Visibility = Visibility.Visible;
             userDefinedProxyState = proxies.CurrentProxyState;
             userDefinedProxyServer = proxies.CurrentProxyServer;
             taskBarIcon.LeftClickCommand = new TaskBarIcon_LeftClick(proxies, taskBarIcon);
@@ -84,7 +85,7 @@ namespace SystrayProxyManager
         #region MainMenu click events
         private void Exit_Click(Object sender, RoutedEventArgs e)
         {
-            UserExit = true;
+            exitOrigin = ExitOrigin.User;
             this.Close();
         }
 
@@ -126,10 +127,10 @@ namespace SystrayProxyManager
         }
         #endregion MainMenu click events
 
-        #region MainWindow close events
+        #region MainWindow events
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!UserExit)
+            if (exitOrigin == ExitOrigin.None)
             {
                 UpdateSetProxyMenu();
                 this.Hide();
@@ -140,11 +141,14 @@ namespace SystrayProxyManager
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            timer.Stop();
-            proxies.SaveProxies();
-            mutex.ReleaseMutex();
+            if (exitOrigin == ExitOrigin.User)
+            {
+                timer.Stop();
+                proxies.SaveProxies();
+                mutex.ReleaseMutex();
+            }
         }
-        #endregion MainWindow close event
+        #endregion MainWindow events
 
         private void CenterWindowOnScreen()
         {
