@@ -6,7 +6,7 @@
 #define MyAppPublisher "Charles Daudré-Vignier"
 #define MyAppURL "https://github.com/Daudre-Vignier-Charles/SystrayProxyManager"
 #define MyAppExeName "SystrayProxyManager.exe"
-#define MyAppMutex "{5D1B5C13-C70C-43CA-8039-7A353F026452}"
+#define MyAppMutex "{{5D1B5C13-C70C-43CA-8039-7A353F026452}"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
