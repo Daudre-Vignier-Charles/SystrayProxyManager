@@ -141,6 +141,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"%25localappdata%25\Programs\Inno Setup 6\ISCC.exe"  ..\..\install.iss</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Debug "%25localappdata%25\Programs\Inno Setup 6\ISCC.exe"  ..\..\install.iss</PostBuildEvent>
   </PropertyGroup>
 </Project>
