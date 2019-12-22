@@ -141,6 +141,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\NSIS\makensis.exe" ..\..\install.nsi</PostBuildEvent>
+    <PostBuildEvent>"%25localappdata%25\Programs\Inno Setup 6\ISCC.exe"  ..\..\install.iss</PostBuildEvent>
   </PropertyGroup>
 </Project>
