@@ -121,12 +121,20 @@
     <Resource Include="on.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.fr-fr.md" />
+    <None Include="README.md" />
     <None Include="Resources\off.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\License.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
