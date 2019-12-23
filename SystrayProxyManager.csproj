@@ -141,6 +141,9 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Debug "%25localappdata%25\Programs\Inno Setup 6\ISCC.exe"  ..\..\install.iss</PostBuildEvent>
+    <PostBuildEvent>set InnoSetupExe="%25localappdata%25\Programs\Inno Setup 6\ISCC.exe"
+set InnoSetupScript="..\..\install.iss"
+
+if $(ConfigurationName) == Release %25InnoSetupExe%25 %25InnoSetupScript</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -15,8 +15,6 @@ namespace SystrayProxyManager
     {
         ExitOrigin exitOrigin = ExitOrigin.None;
         private Proxies proxies = new Proxies();
-        private Proxy userDefinedProxyServer;
-        private bool userDefinedProxyState;
         private DispatcherTimer timer;
         private static System.Threading.Mutex mutex = new System.Threading.Mutex(false, "{5D1B5C13-C70C-43CA-8039-7A353F026452}");
 
@@ -32,8 +30,8 @@ namespace SystrayProxyManager
             }
             SetTimer();
             taskBarIcon.Visibility = Visibility.Visible;
-            userDefinedProxyState = proxies.CurrentProxyState;
-            userDefinedProxyServer = proxies.CurrentProxyServer;
+            proxies.userDefinedProxyState = proxies.CurrentProxyState;
+            proxies.userDefinedProxyServer = proxies.CurrentProxyServer;
             taskBarIcon.LeftClickCommand = new TaskBarIcon_LeftClick(proxies, taskBarIcon);
             taskBarIcon.ToolTipText = proxies.CurrentProxyServer.ToString();
             UpdateSetProxyMenu();
@@ -70,10 +68,10 @@ namespace SystrayProxyManager
             taskBarIcon.ToolTipText = proxies.CurrentProxyServer.ToString();
             if (menu_Force.IsChecked)
             {
-                if (taskBarIcon.ToolTipText != userDefinedProxyServer.ToString())
-                    proxies.CurrentProxyServer = userDefinedProxyServer;
-                if (proxies.CurrentProxyState != userDefinedProxyState)
-                    proxies.CurrentProxyState = userDefinedProxyState;
+                if (taskBarIcon.ToolTipText != proxies.userDefinedProxyServer.ToString())
+                    proxies.CurrentProxyServer = proxies.userDefinedProxyServer;
+                if (proxies.CurrentProxyState != proxies.userDefinedProxyState)
+                    proxies.CurrentProxyState = proxies.userDefinedProxyState;
             }
             if (proxies.CurrentProxyState)
                 taskBarIcon.Icon = Resource.on;
@@ -121,7 +119,7 @@ namespace SystrayProxyManager
                 if (proxy != null)
                 {
                     proxies.CurrentProxyServer = proxy;
-                    userDefinedProxyServer = proxy;
+                    proxies.userDefinedProxyServer = proxy;
                 }
             }
         }
@@ -175,13 +173,16 @@ namespace SystrayProxyManager
             if (proxies.CurrentProxyState)
             {
                 proxies.CurrentProxyState = false;
+                proxies.userDefinedProxyState = false;
                 taskBarIcon.Icon = Resource.on;
             }
             else
             {
                 proxies.CurrentProxyState = true;
+                proxies.userDefinedProxyState = true;
                 taskBarIcon.Icon = Resource.off;
             }
+            
         }
         public bool CanExecute(object parameter) =>
             true;

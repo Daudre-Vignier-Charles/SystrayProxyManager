@@ -44,6 +44,8 @@ namespace SystrayProxyManager
         }
 
         public List<Proxy> proxies { get; set; } = new List<Proxy>();
+        internal Proxy userDefinedProxyServer { get; set; }
+        internal bool userDefinedProxyState { get; set; }
         //public List<Proxy> proxies = new List<Proxy>();
         private static ProxyValidationRule rule = new ProxyValidationRule();
         private static string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\SystrayProxyManager\proxy_list.dat";
