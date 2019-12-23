@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SystrayProxyManager"
-#define MyAppVersion "4.1.0.0"
+#define MyAppVersion "4.2.0.0"
 #define MyAppPublisher "Charles Daudré-Vignier"
 #define MyAppURL "https://github.com/Daudre-Vignier-Charles/SystrayProxyManager"
 #define MyAppExeName "SystrayProxyManager.exe"
